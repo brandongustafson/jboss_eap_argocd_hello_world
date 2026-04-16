@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  jboss-web.xml — JBoss EAP deployment descriptor
+  =================================================
+  This file is only read by JBoss EAP. It is ignored when running standalone.
+
+  context-root sets the URL path where the app is accessible on JBoss.
+  With /hello-world, the app will be at:
+    http://localhost:8080/hello-world/
+-->
+<jboss-web xmlns="http://www.jboss.com/xml/ns/javaee"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee
+                               http://www.jboss.org/j2ee/schema/jboss-web_5_1.xsd">
+    <context-root>/hello-world</context-root>
+</jboss-web>

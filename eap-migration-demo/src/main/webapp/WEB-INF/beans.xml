@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  MIGRATION NOTE:
+  EAP 6.4 (CDI 1.0): beans.xml is REQUIRED to enable CDI in a deployment.
+  EAP 7.4 (CDI 1.2): beans.xml is optional, but including it with
+  bean-discovery-mode="all" ensures all classes are scanned as CDI beans,
+  matching the EAP 6.4 behavior.
+
+  If you omit beans.xml on EAP 7.4, only classes with explicit CDI scope
+  annotations (@ApplicationScoped, @RequestScoped, etc.) are discovered
+  when using the default "annotated" mode.
+
+  Keeping this file with bean-discovery-mode="all" is the safest migration
+  path to avoid CDI injection surprises.
+-->
+<beans xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
+       bean-discovery-mode="all">
+</beans>

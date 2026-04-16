@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world
+  namespace: hello-world
+  labels:
+    app: hello-world
+    version: "1.0.0"
+spec:
+  # Run 2 replicas so we can demonstrate rolling updates with ArgoCD
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world
+        version: "1.0.0"
+    spec:
+      containers:
+        - name: hello-world
+          # Local Docker Desktop: uses the image built with `docker build`
+          # Future AWS OCP migration: update to your ECR image URI
+          #   e.g. 123456789.dkr.ecr.us-east-1.amazonaws.com/hello-world:1.0.0
+          image: hello-world:1.0.0
+          imagePullPolicy: IfNotPresent   # use local image; change to Always for a registry
+          ports:
+            - containerPort: 8080
+              name: http
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          # Liveness probe: restart the container if the app stops responding
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 3
+          # Readiness probe: only send traffic once the app is ready
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            failureThreshold: 3
+      # runAsNonRoot is a good security practice and will also be required
+      # when we migrate to AWS OCP later.
+      securityContext:
+        runAsNonRoot: true

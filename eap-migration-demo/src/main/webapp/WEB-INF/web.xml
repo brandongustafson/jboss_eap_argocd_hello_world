@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  MIGRATION NOTE:
+  EAP 6.4 supports Servlet 3.0 (Java EE 6).
+  EAP 7.4 supports Servlet 3.1 (Java EE 7).
+
+  Changing the version from 3.0 to 3.1 unlocks:
+    - Non-blocking I/O in servlets (ReadListener / WriteListener)
+    - HTTP protocol upgrade support
+
+  For this demo we use 3.1 since EAP 6.4 is backward compatible with it
+  at the descriptor level. If you need strict EAP 6.4 compatibility, use 3.0.
+
+  Also note: In EAP 6.4, if you configured RESTEasy manually, you would have
+  had a <servlet> entry here for the RESTEasy HttpServletDispatcher.
+  On EAP 7.4, that is no longer needed - the RestApplication.java class
+  with @ApplicationPath handles it.
+-->
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+    <display-name>EAP Migration Demo</display-name>
+
+</web-app>

@@ -1,0 +1,86 @@
+# ── Maven ─────────────────────────────────────────────────────────────────────
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# ── Java ──────────────────────────────────────────────────────────────────────
+*.class
+hs_err_pid*
+replay_pid*
+
+# ── IDE — IntelliJ ────────────────────────────────────────────────────────────
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# ── IDE — VS Code ─────────────────────────────────────────────────────────────
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# ── IDE — Eclipse ─────────────────────────────────────────────────────────────
+.classpath
+.project
+.settings/
+.factorypath
+
+# ── macOS ─────────────────────────────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# ── Docker ────────────────────────────────────────────────────────────────────
+# Don't ignore Dockerfile or docker-compose.yml — those are source
+.docker/
+
+# ── JBoss EAP (local install — not part of the repo) ─────────────────────────
+jboss-eap-*/
+*.deployed
+*.failed
+*.isdeploying
+*.dodeploy
+
+# ── Logs ──────────────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── Secrets / credentials — never commit these ────────────────────────────────
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+*.truststore
+pull-secret.txt
+.env
+.env.*
+!.env.example
+
+# ── ArgoCD / Kubernetes generated files ───────────────────────────────────────
+# kubeconfig files can contain cluster credentials
+kubeconfig
+*.kubeconfig
+
+# ── Downloaded installers / archives (in workspace root) ─────────────────────
+*.zip
+*.tar.gz
+*.pkg
+*.dmg
+apache-maven-*/

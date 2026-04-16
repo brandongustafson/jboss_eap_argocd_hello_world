@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  MIGRATION NOTE:
+  jboss-web.xml is supported on both EAP 6.4 and 7.4.
+
+  Common things that changed:
+  - <security-domain> names may differ between versions
+  - <valve> elements referencing JBoss Web (Tomcat) valves will NOT work
+    on EAP 7.4 since Undertow replaced JBoss Web. Replace valves with
+    Undertow handlers configured in standalone.xml instead.
+  - <context-root> works the same on both versions.
+-->
+<jboss-web xmlns="http://www.jboss.com/xml/ns/javaee"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee http://www.jboss.org/j2ee/schema/jboss-web_5_1.xsd">
+
+    <context-root>/demo</context-root>
+
+</jboss-web>

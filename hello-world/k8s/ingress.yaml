@@ -1,0 +1,45 @@
+# ingress.yaml — exposes the app outside the cluster via Docker Desktop Kubernetes
+#
+# Docker Desktop's built-in Kubernetes does NOT include an Ingress controller
+# by default. We use kubectl port-forward for local access instead (simpler,
+# no extra install needed for a demo).
+#
+# This file is kept for reference and for the future AWS OCP migration.
+# When migrating to OCP, replace this with an OpenShift Route:
+#
+#   apiVersion: route.openshift.io/v1
+#   kind: Route
+#   metadata:
+#     name: hello-world
+#     namespace: hello-world
+#   spec:
+#     to:
+#       kind: Service
+#       name: hello-world
+#     port:
+#       targetPort: http
+#     tls:
+#       termination: edge
+#
+# For now, access the app via port-forward (see demo.sh / README).
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hello-world
+  namespace: hello-world
+  labels:
+    app: hello-world
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: hello-world.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: hello-world
+                port:
+                  number: 80

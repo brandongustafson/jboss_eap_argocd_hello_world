@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+      Spring Boot parent manages all dependency versions for us.
+      We pin to 2.7.x — the last Spring Boot 2 release — because it targets
+      Java EE / javax.* namespace, which is what JBoss EAP 7.4 expects.
+      Spring Boot 3.x uses Jakarta EE (jakarta.*) and requires Java 17+.
+    -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.18</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.demo</groupId>
+    <artifactId>hello-world</artifactId>
+    <version>1.0.0</version>
+
+    <!--
+      WAR packaging is required for deployment to JBoss EAP.
+      The default JAR packaging embeds Tomcat and runs standalone —
+      that's fine for Docker, but JBoss needs a WAR.
+      We produce a WAR that can ALSO run standalone (see SpringBootServletInitializer).
+    -->
+    <packaging>war</packaging>
+    <name>hello-world</name>
+    <description>Hello World Spring Boot app — JBoss EAP 7.4 + Docker + OpenShift + ArgoCD demo</description>
+
+    <properties>
+        <java.version>11</java.version>
+    </properties>
+
+    <dependencies>
+        <!-- Spring MVC + embedded Tomcat (used when running as standalone JAR/WAR) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!--
+          Thymeleaf template engine — renders the HTML page.
+          Spring Boot auto-configures it; templates go in src/main/resources/templates/
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <!--
+          CRITICAL for JBoss EAP deployment:
+          Exclude the embedded Tomcat from the WAR. JBoss EAP provides its own
+          Servlet container (Undertow). If Tomcat is bundled in the WAR, you get
+          classloader conflicts and the app fails to deploy.
+          scope=provided means it's available at compile time but NOT packaged.
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Spring Boot test support -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>hello-world</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--
+                  repackage goal creates a fat JAR/WAR that can run standalone.
+                  This is what powers `java -jar hello-world.war` for Docker.
+                  JBoss ignores the embedded launcher and uses the WAR structure normally.
+                -->
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
