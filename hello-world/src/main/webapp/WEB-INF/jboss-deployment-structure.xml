@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  jboss-deployment-structure.xml
+  ================================
+  Fixes the Logback vs JBoss LogManager conflict when deploying
+  a Spring Boot WAR to JBoss EAP 7.4.
+
+  The problem:
+    Spring Boot bundles Logback + SLF4J inside the WAR.
+    JBoss EAP also provides its own SLF4J binding (slf4j-jboss-logmanager).
+    When both are on the classpath, SLF4J throws:
+      "LoggerFactory is not a Logback LoggerContext"
+
+  The fix:
+    Exclude JBoss's SLF4J and logging modules from this deployment so
+    Spring Boot's bundled Logback is the only logging implementation.
+-->
+<jboss-deployment-structure>
+    <deployment>
+        <exclusions>
+            <module name="org.slf4j"/>
+            <module name="org.slf4j.impl"/>
+            <module name="org.slf4j.jcl-over-slf4j"/>
+            <module name="org.apache.log4j"/>
+            <module name="org.jboss.logging"/>
+            <module name="org.jboss.logging.jul-to-slf4j-stub"/>
+            <module name="org.jboss.logmanager"/>
+            <module name="org.jboss.logmanager.log4j"/>
+        </exclusions>
+    </deployment>
+</jboss-deployment-structure>

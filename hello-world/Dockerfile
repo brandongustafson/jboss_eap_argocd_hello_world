@@ -15,20 +15,19 @@
 # =============================================================================
 
 # ── Stage 1: Build ────────────────────────────────────────────────────────────
-FROM eclipse-temurin:11-jdk AS build
+# Use the official Maven image which includes both JDK 11 and Maven.
+FROM maven:3.9-eclipse-temurin-11 AS build
 
 WORKDIR /workspace
 
 # Copy dependency descriptors first — Docker caches this layer separately.
 # If only source code changes (not pom.xml), Maven dependencies are not re-downloaded.
 COPY pom.xml .
-RUN --mount=type=cache,target=/root/.m2 \
-    mvn dependency:go-offline -B 2>/dev/null || true
+RUN mvn dependency:go-offline -B -q 2>/dev/null || true
 
 # Copy source and build
 COPY src ./src
-RUN --mount=type=cache,target=/root/.m2 \
-    mvn clean package -DskipTests -B
+RUN mvn clean package -DskipTests -B -q
 
 # ── Stage 2: Runtime ──────────────────────────────────────────────────────────
 FROM eclipse-temurin:11-jre
