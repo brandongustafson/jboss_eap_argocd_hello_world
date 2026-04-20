@@ -51,7 +51,9 @@ spec:
             initialDelaySeconds: 20
             periodSeconds: 5
             failureThreshold: 3
-      # runAsNonRoot is a good security practice and will also be required
-      # when we migrate to AWS OCP later.
+      # runAsNonRoot + runAsUser: Kubernetes requires a numeric UID when
+      # runAsNonRoot is true so it can verify the user is not root (UID 0).
+      # UID 1000 matches the appuser created in the Dockerfile.
       securityContext:
         runAsNonRoot: true
+        runAsUser: 1000
