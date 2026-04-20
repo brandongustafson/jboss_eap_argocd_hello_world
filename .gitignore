@@ -61,6 +61,9 @@ jboss-eap-*/
 *.log
 logs/
 
+# ── Private presenter notes — never commit ────────────────────────────────────
+DEMO_SCRIPT.md
+
 # ── Secrets / credentials — never commit these ────────────────────────────────
 *.pem
 *.key
