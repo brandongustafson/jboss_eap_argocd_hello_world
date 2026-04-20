@@ -16,7 +16,7 @@ spec:
     # ── UPDATE THIS ──────────────────────────────────────────────────────────
     # Point this to YOUR Git repository containing the k8s/ folder.
     # ArgoCD will watch this repo and sync any changes automatically.
-    repoURL: https://github.com/YOUR_USERNAME/hello-world.git
+    repoURL: https://github.com/brandongustafson/jboss_eap_argocd_hello_world.git
     targetRevision: HEAD   # track the default branch (main/master)
     path: k8s              # folder inside the repo containing the manifests
     # ─────────────────────────────────────────────────────────────────────────
