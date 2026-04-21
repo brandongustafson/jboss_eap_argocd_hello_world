@@ -274,10 +274,13 @@ else
   echo ""
   step "To open the ArgoCD UI, run this in a separate terminal:"
   echo ""
-  echo -e "   ${GREEN}kubectl port-forward svc/argocd-server -n argocd 8443:443${NC}"
+  echo -e "   ${GREEN}kubectl port-forward svc/argocd-server -n argocd 8444:443${NC}"
   echo ""
-  info "Then open: https://localhost:8443  (accept the self-signed cert)"
+  info "Then open: https://localhost:8444  (accept the self-signed cert)"
   info "Login:     admin / $ARGOCD_PASS"
+  info ""
+  warn "Important: start JBoss EAP before this port-forward."
+  warn "JBoss EAP also uses port 8443 for HTTPS.  Using 8444 here avoids the conflict."
 
   pause
 fi
@@ -319,7 +322,7 @@ else
     info "selfHeal: true means manual kubectl changes get reverted to match Git."
     echo ""
     info "CLI commands to manage the app:"
-    echo -e "   ${GREEN}argocd login localhost:8443 --username admin --insecure${NC}"
+    echo -e "   ${GREEN}argocd login localhost:8444 --username admin --insecure${NC}"
     echo -e "   ${GREEN}argocd app get hello-world${NC}"
     echo -e "   ${GREEN}argocd app sync hello-world${NC}"
     echo -e "   ${GREEN}argocd app wait hello-world --health${NC}"

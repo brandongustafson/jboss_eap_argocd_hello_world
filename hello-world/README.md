@@ -178,10 +178,11 @@ kubectl -n argocd get secret argocd-initial-admin-secret \
   -o jsonpath="{.data.password}" | base64 -d && echo
 
 # Expose the UI (run in a separate terminal, keep it running)
-kubectl port-forward svc/argocd-server -n argocd 8443:443
+# Note: use port 8444 to avoid conflict with JBoss EAP which also uses 8443
+kubectl port-forward svc/argocd-server -n argocd 8444:443
 ```
 
-Open the UI: **https://localhost:8443** (accept the self-signed certificate)
+Open the UI: **https://localhost:8444** (accept the self-signed certificate)
 
 Login: `admin` / (password from the command above)
 
@@ -189,7 +190,7 @@ Login: `admin` / (password from the command above)
 
 ```bash
 # Log in via CLI
-argocd login localhost:8443 --username admin --insecure
+argocd login localhost:8444 --username admin --insecure
 
 # Create the application
 argocd app create hello-world \
@@ -253,7 +254,7 @@ git push -> ArgoCD detects change -> pulls k8s/ manifests -> applies to cluster
 | Docker container | 8081 | http://localhost:8081/ |
 | Kubernetes (port-forward) | 8082 | http://localhost:8082/ |
 | JBoss admin console | 9990 | http://localhost:9990 |
-| ArgoCD UI | 8443 | https://localhost:8443 |
+| ArgoCD UI | 8444 | https://localhost:8444 |
 
 ---
 
@@ -333,5 +334,5 @@ Check the security context.  The deployment requires `runAsUser: 1000` alongside
 **ArgoCD session expired**
 
 ```bash
-argocd login localhost:8443 --username admin --insecure
+argocd login localhost:8444 --username admin --insecure
 ```
